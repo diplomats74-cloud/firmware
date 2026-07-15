@@ -117,7 +117,7 @@ NRF54L15Bluetooth *nrf54l15Bluetooth = nullptr;
 #ifdef ARCH_ESP32
 #ifdef DEBUG_PARTITION_TABLE
 #include "esp_partition.h"
-
+#include "esp_efuse.h"
 void printPartitionTable()
 {
     printf("\n--- Partition Table ---\n");
@@ -356,6 +356,12 @@ void printInfo()
 #ifndef PIO_UNIT_TESTING
 void setup()
 {
+#ifdef ARCH_ESP32
+    uint8_t custom_mac[6];
+    if (esp_efuse_mac_get_custom(custom_mac) == ESP_OK) {
+        esp_base_mac_addr_set(custom_mac);
+    }
+#endif
 
     // initialize power HAL layer as early as possible
     powerHAL_init();
