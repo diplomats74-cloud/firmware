@@ -358,8 +358,8 @@ void setup()
 {
 #ifdef ARCH_ESP32
     uint8_t custom_mac[6];
-    if (esp_efuse_mac_get_custom(custom_mac) == ESP_OK) {
-        esp_base_mac_addr_set(custom_mac);
+    if (esp_efuse_mac_get_custom(&custom_mac[0]) == ESP_OK) {
+        esp_base_mac_addr_set(&custom_mac[0]);
     }
 #endif
 
